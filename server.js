@@ -31,7 +31,10 @@ io.sockets.on('connection', function(socket) {
 	}
 
 	socket.on('send message', function(data) {
-		io.sockets.emit('new message', data);
+		io.sockets.emit('new message', {
+			msg  : data,
+			nick : socket.nickname
+		});
 	});
 
 	socket.on('disconnect', function(data) {
