@@ -3,6 +3,7 @@ jQuery(function() {
 		$nickForm		= $('#setNick'),
 		$nickError		= $('#nickError'),
 		$nickBox		= $('#nickname'),
+		$users			= $('#users'),
 		$messageForm 	= $('#send-message'),
 		$messageBox 	= $('#message'),
 		$chat 			= $('#chat');
@@ -18,6 +19,18 @@ jQuery(function() {
 				}
 			});
 			$nickBox.val('');
+		});
+
+		//displaying the list of online users
+		socket.on('usernames', function(data) {
+			/*var html = '';
+			for(i = 0; i < data.length; i ++) {
+				html += data[i] + '<br />';
+			}
+			$users.html(html);*/
+
+			//another solution with join method
+			$users.html(data.join("<br />"));
 		});
 
 	$messageForm.submit(function(e) {
