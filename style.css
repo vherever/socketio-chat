@@ -12,3 +12,11 @@
 #nickError {
 	color: red;
 }
+
+.error {
+	color: red;
+}
+.whisper {
+	color: grey;
+	font-style: italic;
+}
