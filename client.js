@@ -35,6 +35,18 @@ jQuery(function() {
 			//another solution with join method
 			//$users.html(data.join("<br />"));
 
+			//after clicking on name push it value to input form
+			var $tagsInput = $('#message');
+		    $('#users a').click(function() {
+		        $tagsInput[0].value = '/w ' + $(this).text() + ' ';
+		        return false;
+		   });
+		    //then focus on input
+		    $('#users a').click(function(){
+			    $('#message').focus();
+			});
+		});
+
 	$messageForm.submit(function(e) {
 		e.preventDefault();
 		socket.emit('send message', $messageBox.val(), function(data) {
