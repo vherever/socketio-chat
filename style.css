@@ -1,13 +1,17 @@
+*{
+  font-family:'Helvetica Neue',Helvetica, sans-serif;
+  font-size:14px;
+  margin:0;
+}
 #chat {
-	height: 500px;
-	width: 250px;	
+		
 }
 #contentWrap {
 	display: none;
 }
 #chatWrap {
 	float: left;
-	border: 1px solid #000; 
+
 }
 #nickError {
 	color: red;
@@ -24,3 +28,35 @@
 a {
 	text-decoration: none;
 }
+
+.container{
+  width:400px;
+  display:block;
+  margin:0 auto;
+  box-shadow:0 2px 5px rgba(0,0,0,0.4);
+}
+
+#nickWrap {
+  padding:20px 20px 18px 20px;
+  background:#5FB471;
+  color:#fff;
+}
+
+h2{
+  font-size:16px;
+  line-height:15px;
+  display:inline-block;
+}
+
+#contentWrap {
+	background:#ECECEC;
+	padding:0 20px;
+	color:#e7b2b2;
+	padding:18px 0 10px;
+	clear:both;
+}
+
+#users {
+	float: right;
+}
+

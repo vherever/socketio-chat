@@ -8,29 +8,32 @@ jQuery(function() {
 		$messageBox 	= $('#message'),
 		$chat 			= $('#chat');
 
-
-
-
 		$nickForm.submit(function(e) {
 			e.preventDefault();
-			socket.emit('new user', $nickBox.val(), function(data) {
-				if(data) {
-					$('#nickWrap').hide();
-					$('#contentWrap').show();
-				} else {
-					$nickError.html('That username is already taken! Please chose another');
-				}
-			});
-			$nickBox.val('');
+			if($nickBox.val()) {
+				socket.emit('new user', $nickBox.val(), function(data) {
+					if(data) {
+						$('#nickWrap').hide();
+						$('#contentWrap').show();
+					} else {
+						$nickError.html('That username is already taken! Please chose another');
+					}
+				});
+				$nickBox.val('');
+			} else {
+				$nickError.html('Please enter the name!');
+			}
 		});
 
 		//displaying the list of online users
 		socket.on('usernames', function(data) {
 			var html = '';
-			for(i = 0; i < data.length; i ++) {
+			for(var i = 0; i < data.length; i ++) {
 				html += '<a href="#">' + data[i] + '</a>' + '<br />';
 			}
 			$users.html(html);
+			
+		//var usr = []; 
 
 			//another solution with join method
 			//$users.html(data.join("<br />"));
@@ -45,20 +48,45 @@ jQuery(function() {
 		    $('#users a').click(function(){
 			    $('#message').focus();
 			});
-		});
 
-	$messageForm.submit(function(e) {
-		e.preventDefault();
-		socket.emit('send message', $messageBox.val(), function(data) {
-			$chat.append('<span class="error">' + data + "</span><br />");
-		});
-		$messageBox.val(''); //clear input form
-	});
-	socket.on('new message', function(data) {
-		$chat.append('<span class="msg"><b>' + data.nick + ': </b>' + data.msg + "</span><br />");
+	/*for(var i = 0; i < data.length; i ++) {
+	usr.push(data[i]);
+	}
+console.log(usr);*/
 	});
 
-	socket.on('whisper', function(data) {
-		$chat.append('<span class="whisper"><b>' + data.nick + ': </b>' + data.msg + "</span><br />");
-	});
+
+
+		$messageForm.submit(function(e) {
+			e.preventDefault();
+			socket.emit('send message', $messageBox.val(), function(data) {
+				$chat.append('<span class="error">' + data + "</span><br />");
+			});
+			$messageBox.val(''); //clear input form
+		});
+
+		socket.on('load old msgs', function(docs) {
+			for(var i = docs.length - 1; i >= 0; i --) {
+				displayMsg(docs[i]);
+			}
+		});
+
+
+		socket.on('new message', function(data) {
+			//if(data.nick === usr[0])
+			displayMsg(data);
+			
+		});
+
+		function displayMsg(data) {
+			$chat.append('<span class="msg"><b>' + data.nick + ': </b>' + data.msg + "</span><br />");
+		}
+
+		socket.on('whisper', function(data) {
+			$chat.append('<span class="whisper"><b>' + data.nick + ': </b>' + data.msg + "</span><br />");
+		});
+
+
+		
+
 });
